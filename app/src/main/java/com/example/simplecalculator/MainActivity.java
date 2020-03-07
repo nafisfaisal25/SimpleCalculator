@@ -4,14 +4,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText mEditText;
-    List<Character> mSignList;
+    private EditText mEditText;
+    private List<Character> mSignList;
+    private Evaluator mEvaluator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mEditText = findViewById(R.id.edittext);
         mSignList = new ArrayList<>();
+        mEvaluator = new Evaluator();
         initSignList();
     }
 
@@ -76,10 +80,55 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void equalButton(View v) {
-        if(!mEditText.getText().toString().equals("")) {
-//
+        String inputString = mEditText.getText().toString();
+
+        if (!isValidString(inputString)) {
+            return;
+        }
+
+        double result = mEvaluator.evaluate(inputString);
+        mEditText.setText(Double.toString(result));
+    }
+
+    private boolean isValidString(String inputString) {
+        if(isEmptyString(inputString)) return false;
+        if(!isMatchingParentheses(inputString)) return false;
+        return true;
+    }
+
+    boolean isEmptyString(String inputString) {
+        if (inputString.equals("")) {
+            Toast.makeText(this, "Enter an expression",
+                    Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isMatchingParentheses(String inputString) {
+        Stack<Character> stack = new Stack<>();
+        for(int i=0;i<inputString.length();i++){
+            if(inputString.charAt(i) == '(') {
+                stack.push('(');
+            } else if(inputString.charAt(i) == ')') {
+                if(stack.isEmpty() || stack.pop() != '(') {
+                    Toast.makeText(this, "Invalid expression",
+                            Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+        }
+
+        if (stack.isEmpty()) {
+            return true;
+        } else {
+            Toast.makeText(this, "Invalid expression",
+                    Toast.LENGTH_SHORT).show();
+            return false;
         }
     }
+
+
     public void oneButton(View v) {
         mEditText.setText(mEditText.getText().append("1"));
     }
