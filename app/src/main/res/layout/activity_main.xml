@@ -14,9 +14,9 @@
         <EditText
             android:id="@+id/edittext"
             android:layout_width="match_parent"
-            android:layout_height="165dp"
+            android:layout_height="220dp"
             android:textCursorDrawable="@null"
-            android:textSize="30dp"
+            android:textSize="40dp"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:backgroundTint="@android:color/transparent"/>

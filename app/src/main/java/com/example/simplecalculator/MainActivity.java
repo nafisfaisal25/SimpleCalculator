@@ -1,6 +1,6 @@
 package com.example.simplecalculator;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     private EditText mEditText;
     private List<Character> mSignList;
